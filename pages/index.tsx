@@ -1,9 +1,9 @@
+import Header from "../components/Header/Header"
+
 export default function Home() {
   return (
-    <main>
-      <h1 className="text-3xl font-bold underline text-red-500">
-        Hello world!
-      </h1>
+    <main className="relative h-screen overflow-y-scroll">
+      <Header />
     </main>
   )
 }

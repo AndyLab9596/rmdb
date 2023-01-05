@@ -31,7 +31,9 @@ const Home: NextPage = () => {
         />
       ) : null}
 
-      <Grid />
+      <Grid className="p-4 max-w-7xl m-auto" title={query ? `Search Results: ${data?.pages[0].total_results}` : 'Popular Movies'}>
+        {data && data.pages ? data.pages.map((page) => page.results.map((movie) => <div key={movie.id}>{movie.original_title}</div>)) : null}
+      </Grid>
       <Card />
       <Spinner />
     </main>

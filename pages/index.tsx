@@ -15,7 +15,6 @@ import { IMAGE_BASE_URL, BACKDROP_SIZE, POSTER_SIZE } from "../config"
 const Home: NextPage = () => {
   const [query, setQuery] = useState("");
   const { data, fetchNextPage, isLoading, isFetching, error } = useFetchMovies(query);
-  console.log(data);
   const heroPageData = data?.pages[0].results[0];
 
   return (
@@ -32,9 +31,15 @@ const Home: NextPage = () => {
       ) : null}
 
       <Grid className="p-4 max-w-7xl m-auto" title={query ? `Search Results: ${data?.pages[0].total_results}` : 'Popular Movies'}>
-        {data && data.pages ? data.pages.map((page) => page.results.map((movie) => <div key={movie.id}>{movie.original_title}</div>)) : null}
+        {data && data.pages ? data.pages.map((page) => page.results.map((movie) => (
+          <div key={movie.id}>
+            <Card
+              imgUrl={movie.poster_path ? `${IMAGE_BASE_URL}${POSTER_SIZE}${movie.poster_path}` : '/no_image.jpg'}
+              title={movie.title}
+            />
+          </div>
+        ))) : null}
       </Grid>
-      <Card />
       <Spinner />
     </main>
   )

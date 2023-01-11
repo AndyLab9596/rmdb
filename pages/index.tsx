@@ -15,14 +15,15 @@ import { IMAGE_BASE_URL, BACKDROP_SIZE, POSTER_SIZE } from "../config"
 
 const Home: NextPage = () => {
   const [query, setQuery] = useState("");
-  const { data, fetchNextPage, isLoading, isFetching } = useFetchMovies(query);
+  const { data, fetchNextPage, isLoading, isFetching, error } = useFetchMovies(query);
   const heroPageData = data?.pages[0].results[0];
 
   const handleScroll = (e: React.UIEvent<HTMLElement>) => {
     const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
-
     if (scrollHeight - scrollTop === clientHeight) fetchNextPage();
-  }
+  };
+
+  if (error) return <div>Something went wrong</div>
 
   return (
     <main className="relative h-screen overflow-y-scroll" onScroll={handleScroll}>

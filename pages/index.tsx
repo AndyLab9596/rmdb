@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import Link from 'next/link';
 
 import type { NextPage } from "next"
 // Fetch hooks
@@ -14,7 +15,7 @@ import { IMAGE_BASE_URL, BACKDROP_SIZE, POSTER_SIZE } from "../config"
 
 const Home: NextPage = () => {
   const [query, setQuery] = useState("");
-  const { data, fetchNextPage, isLoading, isFetching, error } = useFetchMovies(query);
+  const { data, fetchNextPage, isLoading, isFetching } = useFetchMovies(query);
   const heroPageData = data?.pages[0].results[0];
 
   const handleScroll = (e: React.UIEvent<HTMLElement>) => {
@@ -38,12 +39,14 @@ const Home: NextPage = () => {
 
       <Grid className="p-4 max-w-7xl m-auto" title={query ? `Search Results: ${data?.pages[0].total_results}` : 'Popular Movies'}>
         {data && data.pages ? data.pages.map((page) => page.results.map((movie) => (
-          <div key={movie.id}>
+          <Link key={movie.id} href={`/${movie.id}`}>
+            <div className="cursor-pointer hover:opacity-80 duration-300">
             <Card
               imgUrl={movie.poster_path ? `${IMAGE_BASE_URL}${POSTER_SIZE}${movie.poster_path}` : '/no_image.jpg'}
               title={movie.title}
             />
           </div>
+          </Link>
         ))) : null}
       </Grid>
       {isLoading || isFetching ? <Spinner /> : null}
